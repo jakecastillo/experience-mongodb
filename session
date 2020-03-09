@@ -1,0 +1,49 @@
+(base) dhcp-168-105-225-206:experience-mongodb autonomous$ cd app
+(base) dhcp-168-105-225-206:app autonomous$ meteor mongo
+MongoDB shell version v4.0.6
+connecting to: mongodb://127.0.0.1:3001/meteor?gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("5294b0c0-3279-49f0-8d96-5ddeb4aaeb8f") }
+MongoDB server version: 4.0.6
+meteor:PRIMARY> db.createCollection("people");
+{
+	"ok" : 1,
+	"operationTime" : Timestamp(1583788095, 1),
+	"$clusterTime" : {
+		"clusterTime" : Timestamp(1583788095, 1),
+		"signature" : {
+			"hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
+			"keyId" : NumberLong(0)
+		}
+	}
+}
+meteor:PRIMARY> show collections
+people
+meteor:PRIMARY> db.people.insert({ first: "Philip", last: "Johnson", age: 58, city: "Kailua" });
+WriteResult({ "nInserted" : 1 })
+meteor:PRIMARY> db.people.insert({ first: "Joanne", last: "Amberg", age: 58, city: "Kailua" });
+WriteResult({ "nInserted" : 1 })
+meteor:PRIMARY> db.people.insert({ first: "Jenna", last: "Corin", age: 31, city: "Boulder Creek" });
+WriteResult({ "nInserted" : 1 })
+meteor:PRIMARY> db.people.insert({ first: "Katie", last: "Kai", age: 25, city: "Palo Alto" });
+WriteResult({ "nInserted" : 1 })
+meteor:PRIMARY> db.people.find()
+{ "_id" : ObjectId("5e66b0aa2b36db894bda6b17"), "first" : "Philip", "last" : "Johnson", "age" : 58, "city" : "Kailua" }
+{ "_id" : ObjectId("5e66b0ba2b36db894bda6b18"), "first" : "Joanne", "last" : "Amberg", "age" : 58, "city" : "Kailua" }
+{ "_id" : ObjectId("5e66b0bf2b36db894bda6b19"), "first" : "Jenna", "last" : "Corin", "age" : 31, "city" : "Boulder Creek" }
+{ "_id" : ObjectId("5e66b0c42b36db894bda6b1a"), "first" : "Katie", "last" : "Kai", "age" : 25, "city" : "Palo Alto" }
+meteor:PRIMARY> db.people.find({ city: "Kailua" });
+{ "_id" : ObjectId("5e66b0aa2b36db894bda6b17"), "first" : "Philip", "last" : "Johnson", "age" : 58, "city" : "Kailua" }
+{ "_id" : ObjectId("5e66b0ba2b36db894bda6b18"), "first" : "Joanne", "last" : "Amberg", "age" : 58, "city" : "Kailua" }
+meteor:PRIMARY> db.people.find({ age: { $lt: 35 }});
+{ "_id" : ObjectId("5e66b0bf2b36db894bda6b19"), "first" : "Jenna", "last" : "Corin", "age" : 31, "city" : "Boulder Creek" }
+{ "_id" : ObjectId("5e66b0c42b36db894bda6b1a"), "first" : "Katie", "last" : "Kai", "age" : 25, "city" : "Palo Alto" }
+meteor:PRIMARY> db.people.update({ first: "Philip", last: "Johnson" }, { $set: { age: 60} });
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+meteor:PRIMARY> db.people.find({ first: "Philip", last: "Johnson" });
+{ "_id" : ObjectId("5e66b0aa2b36db894bda6b17"), "first" : "Philip", "last" : "Johnson", "age" : 60, "city" : "Kailua" }
+meteor:PRIMARY> db.people.deleteOne({ first: "Philip", last: "Johnson" });
+{ "acknowledged" : true, "deletedCount" : 1 }
+meteor:PRIMARY> db.people.find();
+{ "_id" : ObjectId("5e66b0ba2b36db894bda6b18"), "first" : "Joanne", "last" : "Amberg", "age" : 58, "city" : "Kailua" }
+{ "_id" : ObjectId("5e66b0bf2b36db894bda6b19"), "first" : "Jenna", "last" : "Corin", "age" : 31, "city" : "Boulder Creek" }
+{ "_id" : ObjectId("5e66b0c42b36db894bda6b1a"), "first" : "Katie", "last" : "Kai", "age" : 25, "city" : "Palo Alto" }
